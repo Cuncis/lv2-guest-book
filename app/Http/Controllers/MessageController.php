@@ -9,7 +9,7 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $messages = Message::latest()->get();
+        $messages = Message::latest()->paginate(5);
         return view('messages.index', compact('messages'));
     }
 
@@ -24,5 +24,11 @@ class MessageController extends Controller
         Message::create($request->all());
 
         return redirect()->back()->with('success', 'Message sent successfully!');
+    }
+
+    public function destroy(Message $message)
+    {
+        $message->delete();
+        return redirect()->back()->with('success', 'Message deleted successfully!');
     }
 }
